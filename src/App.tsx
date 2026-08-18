@@ -1,18 +1,20 @@
+import { ProductCard } from "./components/ProductCard"
+import type { Product } from "./types/product"
 
-import { Button } from './Button'
-import { Product } from './Products'
+interface AppProps{
+  products: Product[]
+}
 
-function App() {
-const textoBotoes = ['Botão 1', "Botão 2", 'Botão 3']
+function App(props: AppProps) {
   return (
-    <div>
-      <h1>Hello world</h1>
-      {textoBotoes.map((texto) => {
-        return <Button text = {texto}/>
-      })}
-
-      <Product/>
-    </div>
+    <main>
+      <h1>NexStore</h1>
+      {
+        props.products.map((value) => {
+          return <ProductCard product={value}/>
+        })
+      }
+    </main>
   )
 }
 
