@@ -4,6 +4,4 @@ import { getProducts } from './services/products'
 
 const root = createRoot(document.getElementById('root')!)
 
-getProducts().then((products) => {
-  root.render(<App products={products}/>)
-})
+  root.render(<App />)
