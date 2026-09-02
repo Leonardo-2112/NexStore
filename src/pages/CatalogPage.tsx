@@ -8,20 +8,27 @@ export function CatalogPage() {
 
     const [cartItem, setCartItem] = useState<CartItem[]>([])
 
-    const[query, setQuery]=useState('')
+    const [query, setQuery] = useState('')
 
     const [category, setCategory] = useState("all")
 
-    //hook personalizado
-    const { products, loading } = useProducts()
+    const [minValue, setMinValue] = useState(0)
+    const [maxValue, setMaxValue] = useState(0)
 
-    
-    const categories = ['all', ...new Set(products.map(product => product.category))]
+    //hook personalizado
+    const { products, loading, categories } = useProducts()
 
 
     //Faz o filtro de acordo com o que for digitado no campo input e select
     const filtered = products.filter((product) => {
-        return (category === 'all' || product.category === category && product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+
+        const searchCategory = category === 'all' || product.category === category
+        const searchWords = product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+
+        const max = maxValue === 0 || product.price <= maxValue;
+        const min = minValue === 0 || product.price >= minValue;
+
+        return searchCategory && searchWords && max && min
     })
 
 
@@ -52,34 +59,45 @@ export function CatalogPage() {
 
     return (
         <section>
-            <input 
-            type="text" 
-            placeholder="Buscar produto..." 
-            value={query} 
-            onChange={(event) => setQuery(event.target.value)}
-        />
-        <select 
-        name="category-list"
-        id="category"
-        value={category}
-        onChange={(event) => setCategory(event.target.value)}
-        >
+            <input
+                type="text"
+                placeholder="Buscar produto..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+            />
+            <select
+                name="category-list"
+                id="category"
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+            >
+
+                {
+                    categories.map((item) => {
+                        return <option value={item}>{item}</option>
+                    })
+                }
+
+            </select>
+
+            <input
+                type="number"
+                placeholder="Valor mínimo"
+                value={minValue}
+                onChange={(event) => setMinValue(event.target.valueAsNumber ?? 0 )} />
+            <input
+                type="number"
+                placeholder="Valor máximo"
+                value={maxValue}
+                onChange={(event) => setMaxValue(event.target.valueAsNumber ?? 0)} />
 
             {
-                categories.map((item) =>{
-                    return <option value={item}>{item}</option>
-                })
-            }
-
-        </select>
-
-            {
-                loading ? 
-                <p>Carregando itens...</p> :
-                <ProductList
-                    products={filtered}
-                    onAddToCart={handleAddCartItem} 
-                />
+                loading ?
+                    <p>Carregando itens...</p> :
+                    <ProductList
+                        products={filtered}
+                        onAddToCart={handleAddCartItem}
+                    />
 
             }
         </section>
