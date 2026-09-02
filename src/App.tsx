@@ -1,12 +1,16 @@
+import type { Product } from "./types/product"
+import { CatalogPage } from "./pages/CatalogPage"
 
-import { Button } from './Button'
+interface AppProps {
+  products: Product[]
+}
 
 function App() {
-
   return (
-    <div>
-    <Button/>
-    </div>
+    <main>
+      <h1>Nexstore</h1>
+      <CatalogPage/>
+    </main>
   )
 }
 
