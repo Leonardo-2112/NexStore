@@ -1,8 +1,8 @@
-import type { Product } from "./types/product"
 import { CatalogPage } from "./pages/CatalogPage"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { CartItem } from "./pages/CartItem"
 import { MainLayout } from "./layouts/MainLayout"
+import "./index.css"
 
 
 function App() {
