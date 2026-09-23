@@ -1,8 +1,8 @@
-import type { Product } from "./types/product"
 import { CatalogPage } from "./pages/CatalogPage"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { CartItem } from "./pages/CartItem"
+import { CartPage } from "./pages/CartPage"
 import { MainLayout } from "./layouts/MainLayout"
+import "./index.css"
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Route element={<MainLayout/>}>
 
           <Route index element={<CatalogPage />} />
-          <Route path="/cart" element={<CartItem />} />
+          <Route path="/carrinho" element={<CartPage />} />
 
         </Route>
       </Routes>

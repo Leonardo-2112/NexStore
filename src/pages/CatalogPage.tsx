@@ -4,6 +4,7 @@ import { ProductList } from "../components/ProductList";
 import type { CartItem } from "../types/cartItem";
 import { useProducts } from "../hooks/useProducts";
 import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 
 export function CatalogPage() {
 
@@ -59,50 +60,68 @@ export function CatalogPage() {
 
 
     return (
-        <section>
-            <Link to="/cart">Item disponivel</Link>
+        <section className="mb-5 flex-wrap items-end justify-between gap-3">
 
-            <input
-                type="text"
-                placeholder="Buscar produto..."
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-            />
-            <select
-                name="category-list"
-                id="category"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-            >
+            <div>
+                <h1 className="font-display text-2xl font-bold">Catálogo</h1>
+
+                <p className="text-sm text-neutral-500">
+                    {loading ? "Carregando produtos..." : `${filtered.length} produtos disponiveis`}
+                </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+
+                <div className="relative">
+
+                    <Search size={15} className=" absolute left-2.5 top-2.5 text-neutral-400"/>
+                    <input
+                        type="text"
+                        placeholder="Buscar produto..."
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        className="field pl-8"
+                    />
+                </div>
+
+                <select
+                    name="category-list"
+                    id="category"
+                    value={category}
+                    onChange={(event) => setCategory(event.target.value)}
+                >
+
+                    {
+                        categories.map((item) => {
+                            return <option value={item}>{item}</option>
+                        })
+                    }
+
+                </select>
+
+                <input
+                    className="field"
+                    type="number"
+                    placeholder="Valor mínimo"
+                    value={minValue}
+                    onChange={(event) => setMinValue(event.target.valueAsNumber ?? 0)} />
+                <input
+                    className="field"
+                    type="number"
+                    placeholder="Valor máximo"
+                    value={maxValue}
+                    onChange={(event) => setMaxValue(event.target.valueAsNumber ?? 0)} />
 
                 {
-                    categories.map((item) => {
-                        return <option value={item}>{item}</option>
-                    })
+                    loading ?
+                        <p>Carregando itens...</p> :
+                        <ProductList
+                            products={filtered}
+                            onAddToCart={handleAddCartItem}
+                        />
+
                 }
-
-            </select>
-
-            <input
-                type="number"
-                placeholder="Valor mínimo"
-                value={minValue}
-                onChange={(event) => setMinValue(event.target.valueAsNumber ?? 0 )} />
-            <input
-                type="number"
-                placeholder="Valor máximo"
-                value={maxValue}
-                onChange={(event) => setMaxValue(event.target.valueAsNumber ?? 0)} />
-
-            {
-                loading ?
-                    <p>Carregando itens...</p> :
-                    <ProductList
-                        products={filtered}
-                        onAddToCart={handleAddCartItem}
-                    />
-
-            }
+            </div>
         </section>
     )
 
