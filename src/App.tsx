@@ -7,6 +7,7 @@ import type { Product } from "./types/product"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { CatalogPage } from "./pages/CatalogPage"
 import { CartPage } from "./pages/CartPage"
+import { ProductPage } from "./pages/ProductPage"
 
 function App() {
 
@@ -66,6 +67,7 @@ function handleRemoveItem(productId: number){
         <Route element={<MainLayout totalItems={cartItem.length} />}>
             <Route index element={<CatalogPage onAddCartItem ={handleAddCartItem} />} />
             <Route path="/carrinho" element={<CartPage onRemove={handleRemoveItem} onUpdateQuantity={handleUpdateQuantity} cartItem = {cartItem} />} />
+            <Route path="/product/:id" element={<ProductPage onAddCart ={handleAddCartItem}/>}/>
           </Route>
       </Routes>
     </BrowserRouter>
