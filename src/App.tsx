@@ -5,9 +5,16 @@ import type { CartItem } from "./types/cartItem"
 import { useState } from "react"
 import type { Product } from "./types/product"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { CatalogPage } from "./pages/CatalogPage"
+import { lazy } from "react"
 import { CartPage } from "./pages/CartPage"
-import { ProductPage } from "./pages/ProductPage"
+import { NotFoundPage } from "./pages/NotFoundPage"
+
+const ProductPage = lazy(() => import('./pages/ProductPage').then
+  ((module) => ({default: module.ProductPage})))
+
+
+const CatalogPage = lazy(() => import('./pages/CatalogPage').then
+  ((module) => ({ default: module.CatalogPage })))
 
 function App() {
 
@@ -68,6 +75,9 @@ function handleRemoveItem(productId: number){
             <Route index element={<CatalogPage onAddCartItem ={handleAddCartItem} />} />
             <Route path="/carrinho" element={<CartPage onRemove={handleRemoveItem} onUpdateQuantity={handleUpdateQuantity} cartItem = {cartItem} />} />
             <Route path="/product/:id" element={<ProductPage onAddCart ={handleAddCartItem}/>}/>
+
+            {/* Catch-all */}
+            <Route path="*" element={<NotFoundPage/>}/>
           </Route>
       </Routes>
     </BrowserRouter>
