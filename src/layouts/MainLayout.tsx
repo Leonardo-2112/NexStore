@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "../components/Header";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallBack } from "../components/ErrorFallback";
+import { ErrorFallBack } from "../components/ErrorFallBack";
 
 interface MainLayoutProps{
     totalItems: number
