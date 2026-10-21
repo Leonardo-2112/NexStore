@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Product } from "../types/product";
 import { ProductList } from "../components/ProductList";
 import { useProducts } from "../hooks/useProducts";
@@ -23,16 +23,17 @@ export function CatalogPage({ onAddCartItem }: CatalogPageProps) {
 
 
     //Faz o filtro de acordo com o que for digitado no campo input e select
-    const filtered = products.filter((product) => {
+    const filtered = useMemo(() => products.filter((product) => {
 
         const searchCategory = category === 'all' || product.category === category
         const searchWords = product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())
-
+       
         const max = maxValue === 0 || product.price <= maxValue;
         const min = minValue === 0 || product.price >= minValue;
 
         return searchCategory && searchWords && max && min
-    })
+    
+    }), [products, category, query]) 
 
 
     return (
